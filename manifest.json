@@ -1,0 +1,18 @@
+{
+    "manifest_version": 3,
+    "name": "EcoIndex",
+    "version": "1.0",
+    "description": "Récupérer facilement les analyses Ecoindex faites sur une page. Plus d'infos sur https://www.ecoindex.fr",
+    "icons": {
+        "128": "images/ic_launcher.png"
+    },
+    "action": {
+        "default_popup": "popup.html"
+    },
+    "host_permissions": [
+        "*://*/*"
+    ],
+    "permissions": [
+        "tabs"
+    ]
+}
