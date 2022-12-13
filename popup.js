@@ -1,5 +1,5 @@
 const ecoindexUrl = "https://www.ecoindex.fr/";
-const apiUrl = "http://ecoindex-badge.lebondeveloppeur.fr";
+const apiUrl = "https://ecoindex-badge.lebondeveloppeur.fr";
 var tabUrl;
 
 const badgeSvg = document.getElementById("badge-svg");
@@ -23,13 +23,6 @@ chrome.tabs.query({
         .then(updatePopup)
         .catch(console.error.bind(console));
 });
-
-noAnalyzis.getElementsByTagName("button")[0].addEventListener("click", openNewTabEcoindex)
-
-function openNewTabEcoindex() {
-    chrome.tabs.create({ url: ecoindexUrl });
-    return false;
-}
 
 function updatePopup(ecoindexData) {
     if (ecoindexData["count"] === 0 && (ecoindexData["older-results"]?.length || 0) === 0) {
@@ -92,6 +85,7 @@ function makeList(section, ecoindex) {
     link.setAttribute("href", ecoindexUrl + "/resultat/?id=" + ecoindex["id"])
     link.innerHTML = title
     link.setAttribute("title", "(" + ecoindex["score"] + " / 100) le " + ecoindex["date"])
+    link.setAttribute("target", "_blank");
     li.appendChild(link);
 
     var text = document.createElement("span")
