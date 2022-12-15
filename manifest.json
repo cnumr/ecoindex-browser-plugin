@@ -5,7 +5,7 @@
     "version": "1.0",
     "description": "Récupérer facilement les analyses Ecoindex faites sur une page grace au moteur ecoindex.fr",
     "icons": {
-        "48": "images/ic_launcher.png"
+        "144": "images/ic_launcher.png"
     },
     "browser_action": {
         "default_icon": "images/ic_launcher.png",

@@ -39,15 +39,15 @@ function updatePopup(ecoindexData) {
 }
 
 function proposeAnalysis(message) {
-    noAnalyzisMessage.innerHTML = message;
+    noAnalyzisMessage.textContent = message;
     showElement(noAnalyzis);
 }
 
 function setBadge(ecoindex) {
     badgeSvg.ariaLabel = "ECOINDEX: " + ecoindex["grade"]
-    badgeTitle.innerHTML = ecoindex["score"] + " / 100 au " + ecoindex["date"]
+    badgeTitle.textContent = ecoindex["score"] + " / 100 au " + ecoindex["date"]
     badgeLink.setAttribute("href", ecoindexUrl + "resultat?id=" + ecoindex["id"])
-    badgeGrade.innerHTML = ecoindex["grade"]
+    badgeGrade.textContent = ecoindex["grade"]
     badgeColor.setAttribute("fill", ecoindex["color"])
 }
 
@@ -69,7 +69,7 @@ function setSection(section, data, tag) {
             break;
     }
 
-    summary.innerHTML = title
+    summary.textContent = title
 
     data.forEach(ecoindex => {
         makeList(section, ecoindex)
@@ -78,20 +78,30 @@ function setSection(section, data, tag) {
 }
 
 function makeList(section, ecoindex) {
-    var ul = section.getElementsByTagName("ul")[0]
-    var li = document.createElement("li");
-    const title = "<b style='color:" + ecoindex['color'] + "';>" + ecoindex["grade"] + "</b>"
+    var b = document.createElement("button");
+    b.style.backgroundColor = ecoindex["color"];
+    b.style.color = "#FFF";
+    b.style.padding = "10px";
+    b.textContent = ecoindex["grade"];
+
     var link = document.createElement("a")
+    link.appendChild(b);
     link.setAttribute("href", ecoindexUrl + "/resultat/?id=" + ecoindex["id"])
-    link.innerHTML = title
-    link.setAttribute("title", "(" + ecoindex["score"] + " / 100) le " + ecoindex["date"])
     link.setAttribute("target", "_blank");
+
+    var li = document.createElement("li");
+    li.style.listStyleType = "none";
+    li.setAttribute("title", "(" + ecoindex["score"] + " / 100) le " + ecoindex["date"])
     li.appendChild(link);
 
     var text = document.createElement("span")
-    text.innerHTML = " : " + ecoindex["url"]
+    text.textContent = ecoindex["url"]
+    text.style.paddingLeft = "5px";
     li.appendChild(text)
 
+    console.log(li)
+
+    var ul = section.getElementsByTagName("ul")[0]
     ul.appendChild(li);
 }
 
