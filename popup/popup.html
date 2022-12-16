@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecoindex</title>
+    <link rel="stylesheet" href="./popup.css">
+</head>
+
+<body class="container">
+    <h1 id="title"></h1>
+    <div class="text-align:center space" style="display: none;" id="loader">
+        <span class="loader"></span>
+    </div>
+    <div id="result" style="display: none;">
+        <hr>
+        <div class="text-align:center space">Analyse du <span id="result-date"></span></div>
+        <div class="result-notation-content space">
+            <div class="result-notation-levels">
+                <div class="result-notation-levels-chart cluster-l --no-margin">
+                    <div>
+                        <div class="notation-level-chart" data-grade-result="A">
+                            <div class="chart-part"></div>
+                            <div class="level-chart-label">A</div>
+                        </div>
+                        <div class="notation-level-chart" data-grade-result="B">
+                            <div class="chart-part"></div>
+                            <div class="level-chart-label">B</div>
+                        </div>
+                        <div class="notation-level-chart" data-grade-result="C">
+                            <div class="chart-part"></div>
+                            <div class="level-chart-label">C</div>
+                        </div>
+                        <div class="notation-level-chart" data-grade-result="D">
+                            <div class="chart-part"></div>
+                            <div class="level-chart-label">D</div>
+                        </div>
+                        <div class="notation-level-chart" data-grade-result="E">
+                            <div class="chart-part"></div>
+                            <div class="level-chart-label">E</div>
+                        </div>
+                        <div class="notation-level-chart" data-grade-result="F">
+                            <div class="chart-part"></div>
+                            <div class="level-chart-label">F</div>
+                        </div>
+                        <div class="notation-level-chart" data-grade-result="G">
+                            <div class="chart-part"></div>
+                            <div class="level-chart-label">G</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-align:center">
+            <div class="space"><b>Score :</b> <span id="result-score"></span> / 100</div>
+            <div class="space"><a target="_blank" class="button" href="#" id="result-link">Plus d'infos</a></div>
+        </div>
+    </div>
+    <div id="no-analysis" class="text-align:center" style="display: none;">
+        <button id="run-analysis""">Lancer une analyse</button>
+        <div class="text-align:center;">
+            <div class="dot-typing text-align:center"></div>
+        </div>
+    </div>
+    <details id="error" style="display: none;">
+        <summary data-error="title"></summary>
+        <code data-error="detail"></code>
+    </details>
+    <div id="other-results" style="display: none;" class="space">
+        <hr>
+        <h2 class="space">Autres résultats</h2>
+        <div id="older-results" style="display: none;">
+            <details class="space">
+                <summary>Sur la même page</summary>
+                <ul></ul>
+            </details>
+        </div>
+        <div id="host-results" style="display: none;">
+            <details class="space">
+                <summary>Autres pages du site</summary>
+                <ul></ul>
+            </details>
+        </div>
+    </div>
+    <script src="./popup.js"></script>
+</body>
+
+</html>
