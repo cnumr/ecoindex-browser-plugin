@@ -18,6 +18,8 @@ jobs:
         with:
           cmd: build
           source: ./
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: "web-ext sign"
         id: web-ext-sign
@@ -29,6 +31,8 @@ jobs:
           apiKey: ${{ secrets.AMO_SIGN_KEY }}
           apiSecret: ${{ secrets.AMO_SIGN_SECRET }}
           timeout: 900000
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: "Create Release"
         uses: softprops/action-gh-release@v1
