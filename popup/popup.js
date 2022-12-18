@@ -57,13 +57,7 @@ function displayResult(ecoindex) {
         minute: 'numeric'
     });
 
-    var link = document.createElement("a")
-    link.setAttribute("href", ecoindex["url"])
-    link.setAttribute("target", "_blank")
-    link.textContent = ecoindex["url"]
-
-    title.textContent = "Résultat pour ";
-    title.appendChild(link)
+    title.textContent = "Résultat pour cette page";
 
     var activeLevelChart = document.querySelector('[data-grade-result="' + ecoindex["grade"] + '"]')
     activeLevelChart.classList.add("--active")
@@ -74,7 +68,20 @@ function displayResult(ecoindex) {
     var resultLink = document.getElementById("result-link")
     resultLink.setAttribute("href", ecoindexUrl + "resultat/?id=" + ecoindex["id"])
 
+    var screenshot = document.getElementById("screenshot")
+    screenshot.setAttribute("src", ecoindexUrl + "/screenshots/v1/" + ecoindex["id"] + ".webp")
+
     showElement(document.getElementById("result"));
+}
+
+function displayImage(id) {
+    fetch(apiUrl + "/v1/ecoindexes/" + id + "/screenshot")
+        .then(response => response.blob())
+        .then(imageBlob => {
+            var screenshot = document.getElementById("screenshot")
+            screenshot.setAttribute("src", URL.createObjectURL(imageBlob))
+            showElement(screenshot);
+        });
 }
 
 function setOtherResults(ecoindexData, tag) {
