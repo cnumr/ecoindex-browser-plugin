@@ -17,12 +17,12 @@ chrome.tabs.query({
         .catch(handleApiError);
 });
 
+document.getElementById("run-analysis").addEventListener("click", runAnalysis);
+
 function handleApiError(error) {
     console.error(error);
-    proposeAnalysis("Erreur lors de la récupération des données");
+    displayError("Une erreur est survenue en essayant de récupérer les données de l'API", error.message);
 }
-
-document.getElementById("run-analysis").addEventListener("click", runAnalysis);
 
 function updatePopup(ecoindexData) {
     if (ecoindexData["count"] === 0 && (ecoindexData["older-results"]?.length || 0) === 0) {
@@ -85,24 +85,10 @@ function setOtherResults(ecoindexData, tag) {
         return
     }
 
-    var summary = section.getElementsByTagName("summary")[0]
-    var title = data.length + (data.length === 1) ? " autre résultat" : " autres résultats"
-
-    switch (tag) {
-        case "older":
-            title += " pour cette page"
-            break;
-
-        case "host":
-            title += " sur ce site"
-            break;
-    }
-
-    summary.textContent = title
-
     data.forEach(ecoindex => {
         makeList(section, ecoindex)
     });
+
     showElement(section)
 }
 
