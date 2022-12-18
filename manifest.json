@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "homepage_url": "https://www.ecoindex.fr",
     "name": "EcoIndex",
-    "version": "1.0",
+    "version": "1.2",
     "description": "Récupérer facilement les analyses Ecoindex faites sur une page grace au moteur ecoindex.fr",
     "icons": {
         "144": "images/ic_launcher.png"
