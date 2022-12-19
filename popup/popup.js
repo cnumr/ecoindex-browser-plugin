@@ -39,6 +39,16 @@ function updatePopup(ecoindexData) {
     }
 }
 
+function convertDate(date) {
+    return new Date(date).toLocaleDateString("fr-FR", {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric'
+    });
+}
+
 function proposeAnalysis(message) {
     const noAnalyzis = document.getElementById("no-analysis");
     title.textContent = message;
@@ -46,16 +56,8 @@ function proposeAnalysis(message) {
 }
 
 function displayResult(ecoindex) {
-    const dateResult = new Date(ecoindex["date"])
     var dateResultElement = document.getElementById("result-date")
-
-    dateResultElement.textContent = dateResult.toLocaleDateString("fr-FR", {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        hour: 'numeric',
-        minute: 'numeric'
-    });
+    dateResultElement.textContent = convertDate(ecoindex["date"])
 
     title.textContent = "Résultat pour cette page";
 
@@ -68,20 +70,19 @@ function displayResult(ecoindex) {
     var resultLink = document.getElementById("result-link")
     resultLink.setAttribute("href", ecoindexUrl + "resultat/?id=" + ecoindex["id"])
 
-    var screenshot = document.getElementById("screenshot")
-    screenshot.setAttribute("src", ecoindexUrl + "/screenshots/v1/" + ecoindex["id"] + ".webp")
-
     showElement(document.getElementById("result"));
+    displayImage(ecoindex["id"])
 }
 
 function displayImage(id) {
-    fetch(apiUrl + "/v1/ecoindexes/" + id + "/screenshot")
+    fetch(apiUrl + "/screenshot/" + id)
         .then(response => response.blob())
         .then(imageBlob => {
             var screenshot = document.getElementById("screenshot")
             screenshot.setAttribute("src", URL.createObjectURL(imageBlob))
             showElement(screenshot);
-        });
+        })
+        .catch(handleApiError);
 }
 
 function setOtherResults(ecoindexData, tag) {
@@ -92,7 +93,7 @@ function setOtherResults(ecoindexData, tag) {
         return
     }
 
-    data.forEach(ecoindex => {
+    data.slice(-5).forEach(ecoindex => {
         makeList(section, ecoindex)
     });
 
@@ -113,7 +114,7 @@ function makeList(section, ecoindex) {
 
     var li = document.createElement("li");
     li.style.listStyleType = "none";
-    li.setAttribute("title", "(" + ecoindex["score"] + " / 100) le " + ecoindex["date"])
+    li.setAttribute("title", "(" + ecoindex["score"] + " / 100) le " + convertDate(ecoindex["date"]))
     li.appendChild(link);
 
     var text = document.createElement("span")
