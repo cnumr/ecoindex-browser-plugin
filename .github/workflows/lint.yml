@@ -14,7 +14,7 @@ jobs:
         uses: kewisch/action-web-ext@v1
         with:
           cmd: lint
-          source: ./
+          source: src
           channel: listed
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
