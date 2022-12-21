@@ -4,8 +4,8 @@
   "description": "This is the source code of the Ecoindex browser plugin. This simple plugin allows you to check the Ecoindex of any website you visit.",
   "scripts": {
     "build": "web-ext build",
-    "lint": "npx eslint src",
-    "lint:fix": "npx eslint src --fix",
+    "lint": "npx eslint src && web-ext lint",
+    "lint:fix": "npx eslint src --fix && web-ext lint",
     "start:dev": "web-ext run"
   },
   "repository": {
