@@ -1,13 +1,13 @@
 {
   "name": "ecoindex-browser-plugin",
-  "version": "1.4.1",
+  "version": "2.0.0",
   "description": "This is the source code of the Ecoindex browser plugin. This simple plugin allows you to check the Ecoindex of any website you visit.",
   "scripts": {
     "build": "web-ext build",
     "lint": "npx eslint src && web-ext lint",
     "lint:fix": "npx eslint src --fix && web-ext lint",
-    "start": "web-ext run",
-    "start:dev": "web-ext run --devtools",
+    "start": "web-ext run --firefox-preview",
+    "start:dev": "web-ext run --devtools --firefox-preview",
     "preVersion": "npm run lint",
     "version": "node ./bin/update-manifest.js"
   },
