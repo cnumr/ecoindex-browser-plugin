@@ -4,13 +4,19 @@ on:
 
 jobs:
   lint:
-    name: "Lint"
+    name: "Linter"
     runs-on: ubuntu-latest
     steps:
-      - name: "Checkout"
+      - name: "Checkout code"
         uses: actions/checkout@v3
 
-      - name: "web-ext lint"
+      - name: "Install dependencies"
+        run: npm install
+
+      - name: "Lint source code"
+        run: npm run lint
+
+      - name: "Lint extension"
         uses: kewisch/action-web-ext@v1
         with:
           cmd: lint

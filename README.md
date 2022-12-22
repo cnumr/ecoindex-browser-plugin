@@ -24,3 +24,22 @@ When the analysis is running, you will see a message:
 You can also dislplay older results existing for this page, or other results for the same domain:
 
 ![other-results](doc/images/other-results.png)
+
+## Development
+
+Install dependencies and run firefox in development mode:
+
+```bash
+npm install
+npm run start
+```
+
+Build the application:
+
+```bash
+npm build
+```
+
+## [Code of conduct](CODE_OF_CONDUCT.md)
+
+## [License](LICENSE.md)

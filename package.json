@@ -1,0 +1,30 @@
+{
+  "name": "ecoindex-browser-plugin",
+  "version": "1.4.1",
+  "description": "This is the source code of the Ecoindex browser plugin. This simple plugin allows you to check the Ecoindex of any website you visit.",
+  "scripts": {
+    "build": "web-ext build",
+    "lint": "npx eslint src && web-ext lint",
+    "lint:fix": "npx eslint src --fix && web-ext lint",
+    "start": "web-ext run",
+    "start:dev": "web-ext run --devtools"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vvatelot/ecoindex-chrome-plugin.git"
+  },
+  "author": "Vincent Vatelot <vincent.vatelot@ik.me>",
+  "license": "Creative commons CC-By-NC-ND",
+  "bugs": {
+    "url": "https://github.com/vvatelot/ecoindex-chrome-plugin/issues"
+  },
+  "homepage": "https://github.com/vvatelot/ecoindex-chrome-plugin",
+  "devDependencies": {
+    "eslint": "^8.30.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0"
+  },
+  "dependencies": {
+    "web-ext": "^7.4.0"
+  }
+}
