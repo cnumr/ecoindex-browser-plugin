@@ -7,7 +7,9 @@
     "lint": "npx eslint src && web-ext lint",
     "lint:fix": "npx eslint src --fix && web-ext lint",
     "start": "web-ext run",
-    "start:dev": "web-ext run --devtools"
+    "start:dev": "web-ext run --devtools",
+    "preVersion": "npm run lint",
+    "version": "node ./bin/update-manifest.js"
   },
   "repository": {
     "type": "git",
