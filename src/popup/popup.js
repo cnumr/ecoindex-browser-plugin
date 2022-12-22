@@ -181,10 +181,11 @@ const fetchWithRetries = async (url, options, retryCount = 0) => {
       const ecoindex = taskResult.ecoindex_result;
 
       if (taskResult.status === 'SUCCESS' && ecoindex.status === 'SUCCESS') {
-        (document.getElementById('loader'));
-        (document.getElementById('no-analysis'));
+        document.getElementById('loader').style.display = 'none';
+        document.getElementById('no-analysis').style.display = 'none';
+
         // eslint-disable-next-line no-undef
-        displayError({ id: taskResult.id, ...ecoindex.detail });
+        displayResult({ id: taskResult.id, ...ecoindex.detail });
       }
 
       if (taskResult.status === 'SUCCESS' && ecoindex.status === 'FAILURE') {
@@ -214,6 +215,7 @@ const fetchWithRetries = async (url, options, retryCount = 0) => {
  */
 async function runAnalysis() {
   document.getElementById('loader').style.display = 'block';
+  document.querySelector('#no-analysis button').style.display = 'none';
 
   fetch(`${apiUrl}/tasks`, {
     method: 'POST',
