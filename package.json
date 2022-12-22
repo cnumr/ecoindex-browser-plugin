@@ -6,7 +6,8 @@
     "build": "web-ext build",
     "lint": "npx eslint src && web-ext lint",
     "lint:fix": "npx eslint src --fix && web-ext lint",
-    "start:dev": "web-ext run"
+    "start": "web-ext run",
+    "start:dev": "web-ext run --devtools"
   },
   "repository": {
     "type": "git",

@@ -4,8 +4,6 @@ module.exports = {
     overwriteDest: true,
   },
   run: {
-    devtools: true,
-    browserConsole: true,
     startUrl: ['https://www.ecoindex.fr/'],
   },
 };
