@@ -59,8 +59,8 @@ function convertDate(date) {
 function displayImage(id) {
   fetch(`${apiUrl}/screenshot/${id}`)
     .then((response) => {
-      if (response.status === 404) {
-        throw new Error('No screenshot available');
+      if (response.status !== 200) {
+        throw new Error(`Pas de screenshot pour l'analyse ${id}`);
       }
       return response.blob();
     })
@@ -68,7 +68,6 @@ function displayImage(id) {
       const screenshot = document.getElementById('screenshot');
       screenshot.setAttribute('src', URL.createObjectURL(imageBlob));
       screenshot.style.display = 'block';
-      console.log('screenshot displayed');
     })
     .catch((error) => console.error(error));
 }
