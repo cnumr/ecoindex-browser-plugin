@@ -58,13 +58,19 @@ function convertDate(date) {
  */
 function displayImage(id) {
   fetch(`${apiUrl}/screenshot/${id}`)
-    .then((response) => response.blob())
+    .then((response) => {
+      if (response.status === 404) {
+        throw new Error('No screenshot available');
+      }
+      return response.blob();
+    })
     .then((imageBlob) => {
       const screenshot = document.getElementById('screenshot');
       screenshot.setAttribute('src', URL.createObjectURL(imageBlob));
       screenshot.style.display = 'block';
+      console.log('screenshot displayed');
     })
-    .catch(handleApiError);
+    .catch((error) => console.error(error));
 }
 
 /**
