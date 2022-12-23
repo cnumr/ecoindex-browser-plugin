@@ -1,0 +1,51 @@
+name: "Build and deploy firefox web extension"
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  sign:
+    name: "🔖🦊 Release Firefox extension"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "🚀 Checkout"
+        uses: actions/checkout@v3
+
+      - name: "👷 Install dependencies"
+        run: npm install
+
+      - name: "🔑 Add Gecko ID"
+        run: |
+          echo "AMO_GECKO_ID=${{ secrets.AMO_GECKO_ID }}" >> $GITHUB_ENV
+
+      - name: "Update Manifest with Gecko ID"
+        run: npm run manifest:update
+
+      - name: "📦 Build application"
+        run: npm run build:firefox
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: "💫 web-ext sign"
+        id: web-ext-sign
+        uses: kewisch/action-web-ext@v1
+        with:
+          cmd: sign
+          source: web-ext-artifacts/ecoindex.fr-firefox.zip
+          channel: listed
+          apiKey: ${{ secrets.AMO_SIGN_KEY }}
+          apiSecret: ${{ secrets.AMO_SIGN_SECRET }}
+          timeout: 900000
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Firefox artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: web-ext-artifacts/ecoindex.fr-firefox.zip
+          asset_name: ecoindex.fr-firefox.zip
+          asset_content_type: application/zip

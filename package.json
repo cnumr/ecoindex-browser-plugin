@@ -3,13 +3,17 @@
   "version": "2.0.0",
   "description": "This is the source code of the Ecoindex browser plugin. This simple plugin allows you to check the Ecoindex of any website you visit.",
   "scripts": {
-    "build": "web-ext build",
-    "lint": "npx eslint src && web-ext lint",
-    "lint:fix": "npx eslint src --fix && web-ext lint",
-    "start": "web-ext run --firefox-preview",
-    "start:dev": "web-ext run --devtools --firefox-preview",
-    "preVersion": "npm run lint",
-    "version": "node ./bin/update-manifest.js"
+    "manifest:tmp": "node bin/temp-manifest.mjs",
+    "manifest:update": "node bin/update-manifest.mjs",
+    "build:google": "node ./bin/build-extension.mjs google",
+    "build:firefox": "node ./bin/build-extension.mjs firefox",
+    "build:all": "npm run build:google && npm run build:firefox",
+    "lint": "npm run manifest:tmp && npx eslint src && web-ext lint",
+    "lint:fix": "npm run manifest:tmp && npx eslint src --fix && web-ext lint",
+    "start": "npm run manifest:tmp && web-ext run --firefox-preview",
+    "start:dev": "npm run manifest:tmp && web-ext run --devtools --firefox-preview",
+    "preVersion": "npm run manifest:tmp && npm run lint",
+    "version": "npm manifest:update"
   },
   "repository": {
     "type": "git",
@@ -24,7 +28,10 @@
   "devDependencies": {
     "eslint": "^8.30.0",
     "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-import": "^2.26.0"
+  },
+  "dependencies": {
+    "fs-extra": "^11.1.0",
     "web-ext": "^7.4.0"
   }
 }
