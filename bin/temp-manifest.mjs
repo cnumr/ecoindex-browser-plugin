@@ -11,6 +11,7 @@ access(manifest, F_OK, (err) => {
   if (err) {
     link(`${dirname}/../src/manifest-firefox.json`, manifest, (e) => {
       if (e) {
+        // eslint-disable-next-line no-console
         console.log(e);
       }
     });

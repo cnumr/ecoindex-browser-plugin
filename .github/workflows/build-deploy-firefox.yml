@@ -19,7 +19,7 @@ jobs:
         run: |
           echo "AMO_GECKO_ID=${{ secrets.AMO_GECKO_ID }}" >> $GITHUB_ENV
 
-      - name: "Update Manifest with Gecko ID"
+      - name: "📄 Update Manifest with Gecko ID"
         run: npm run manifest:update
 
       - name: "📦 Build application"
@@ -27,7 +27,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: "💫 web-ext sign"
+      - name: "💫 Publish firefox extension"
         id: web-ext-sign
         uses: kewisch/action-web-ext@v1
         with:
@@ -40,12 +40,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload Firefox artifact
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: ⬆️ Upload Firefox artifact
+        uses: svenstaro/upload-release-action@v2
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: web-ext-artifacts/ecoindex.fr-firefox.zip
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: web-ext-artifacts/ecoindex.fr-firefox.zip
           asset_name: ecoindex.fr-firefox.zip
-          asset_content_type: application/zip
+          tag: ${{ github.ref }}

@@ -8,7 +8,7 @@ const f = fileURLToPath(import.meta.url);
 const dirname = path.dirname(f);
 
 args.forEach((browser) => {
-  if (['firefox', 'google'].includes(browser)) {
+  if (['firefox', 'chrome'].includes(browser)) {
     fs.mkdirSync(`${dirname}/../dist/${browser}`, { recursive: true });
     fs.copySync(`${dirname}/../src/manifest-${browser}.json`, `${dirname}/../dist/${browser}/manifest.json`);
     fs.copySync(`${dirname}/../src/popup`, `${dirname}/../dist/${browser}/popup`);
