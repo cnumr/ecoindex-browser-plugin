@@ -16,6 +16,6 @@
     "tabs"
   ],
   "host_permissions": [
-    "https://ecoindex-badge.lebondeveloppeur.fr/*"
+    "https://bff.ecoindex.fr/*"
   ]
 }
