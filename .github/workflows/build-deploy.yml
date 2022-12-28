@@ -1,0 +1,97 @@
+name: "Build and deploy web extensions"
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  build:
+    name: "📦 Build web extensions"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "🚀 Checkout"
+        uses: actions/checkout@v3
+
+      - name: "👷 Install dependencies"
+        run: npm install
+
+      - name: "🔑 Add Gecko ID"
+        run: |
+          echo "AMO_GECKO_ID=${{ secrets.AMO_GECKO_ID }}" >> $GITHUB_ENV
+
+      - name: "📄 Update Manifest with Gecko ID"
+        run: npm run manifest:update
+
+      - name: "📦 Build application"
+        run: npm run build:all
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: "Upload artifact"
+        uses: actions/upload-artifact@v3
+        with:
+          name: web-ext-artifacts
+          path: web-ext-artifacts
+
+  artifacts:
+    name: "📦 Upload release artifacts"
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: "⬆️ Upload Chrome release artifact"
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: web-ext-artifacts/ecoindex.fr-chrome.zip
+          asset_name: ecoindex-${{ github.ref }}-chrome.zip
+          tag: ${{ github.ref }}
+
+      - name: "⬆️ Upload Firefox release artifact"
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: web-ext-artifacts/ecoindex.fr-firefox.zip
+          asset_name: ecoindex-${{ github.ref }}-firefox.zip
+          tag: ${{ github.ref }}
+
+  firefox:
+    name: "🦊 Publish Firefox extension"
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: "⬇️ Download Firefox artifact"
+        uses: actions/download-artifact@v3
+        with:
+          name: web-ext-artifacts
+
+      - name: "💫 Publish firefox extension"
+        id: web-ext-sign
+        uses: kewisch/action-web-ext@v1
+        with:
+          cmd: sign
+          source: web-ext-artifacts/ecoindex.fr-firefox.zip
+          channel: listed
+          apiKey: ${{ secrets.AMO_SIGN_KEY }}
+          apiSecret: ${{ secrets.AMO_SIGN_SECRET }}
+          timeout: 900000
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  chrome:
+    name: "🤖 Publish Chrome extension"
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: "⬇️ Download Chrome artifact"
+        uses: actions/download-artifact@v3
+        with:
+          name: web-ext-artifacts
+
+      - name: "💫 Publish chrome extension"
+        uses: Klemensas/chrome-extension-upload-action@v1.3
+        with:
+          refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
+          client-id: ${{ secrets.CHROME_CLIENT_ID }}
+          client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
+          file-name: web-ext-artifacts/ecoindex.fr-chrome.zip
+          app-id: ${{ secrets.CHROME_APP_ID }}
