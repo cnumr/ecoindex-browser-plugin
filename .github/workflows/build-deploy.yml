@@ -93,10 +93,10 @@ jobs:
           name: web-ext-artifacts
 
       - name: "💫 Publish chrome extension"
-        uses: Klemensas/chrome-extension-upload-action@v1.3
+        uses: mnao305/chrome-extension-upload@v4.0.0
         with:
-          refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
+          file-path: ecoindex.fr-chrome.zip
+          extension-id: ${{ secrets.CHROME_APP_ID }}
           client-id: ${{ secrets.CHROME_CLIENT_ID }}
           client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
-          file-name: ecoindex.fr-chrome.zip
-          app-id: ${{ secrets.CHROME_APP_ID }}
+          refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
