@@ -5,9 +5,9 @@
   "scripts": {
     "manifest:tmp": "node bin/temp-manifest.mjs",
     "manifest:update": "node bin/update-manifest.mjs",
-    "build:google": "node ./bin/build-extension.mjs google",
+    "build:chrome": "node ./bin/build-extension.mjs chrome",
     "build:firefox": "node ./bin/build-extension.mjs firefox",
-    "build:all": "npm run build:google && npm run build:firefox",
+    "build:all": "npm run build:chrome && npm run build:firefox",
     "lint": "npm run manifest:tmp && npx eslint src && web-ext lint",
     "lint:fix": "npm run manifest:tmp && npx eslint src --fix && web-ext lint",
     "start": "npm run manifest:tmp && web-ext run --firefox-preview",

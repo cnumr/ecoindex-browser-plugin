@@ -24,4 +24,4 @@ function updateManifest(browser) {
   writeFileSync(filename, JSON.stringify(data, null, 2), 'utf8');
 }
 
-['firefox', 'google'].forEach((browser) => updateManifest(browser));
+['firefox', 'chrome'].forEach((browser) => updateManifest(browser));
