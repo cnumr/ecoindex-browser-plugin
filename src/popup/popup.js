@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
-const ecoindexUrl = 'https://www.ecoindex.fr/';
-const apiUrl = 'https://ecoindex-badge.lebondeveloppeur.fr';
+const ecoindexUrl = 'https://www.ecoindex.fr';
+const apiUrl = 'https://bff.ecoindex.fr';
 let tabUrl;
 const domTitle = document.getElementById('title');
 
@@ -89,7 +89,7 @@ function displayResult(ecoindex) {
   resultScore.textContent = ecoindex.score;
 
   const resultLink = document.getElementById('result-link');
-  resultLink.setAttribute('href', `${ecoindexUrl}resultat/?id=${ecoindex.id}`);
+  resultLink.setAttribute('href', `${ecoindexUrl}/resultat/?id=${ecoindex.id}`);
 
   document.getElementById('result').style.display = 'block';
   displayImage(ecoindex.id);
