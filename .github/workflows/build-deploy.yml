@@ -48,7 +48,7 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ecoindex.fr-chrome.zip
-          asset_name: ecoindex-${{ github.ref }}-chrome.zip
+          asset_name: ecoindex-${{ github.ref_name }}-chrome.zip
           tag: ${{ github.ref }}
 
       - name: "⬆️ Upload Firefox release artifact"
@@ -56,7 +56,7 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ecoindex.fr-firefox.zip
-          asset_name: ecoindex-${{ github.ref }}-firefox.zip
+          asset_name: ecoindex-${{ github.ref_name }}-firefox.zip
           tag: ${{ github.ref }}
 
   firefox:
