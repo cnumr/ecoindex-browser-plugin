@@ -5,10 +5,10 @@ This simple plugin allows you to check the Ecoindex of any website you visit.
 
 This plugin is currently available for:
 
-![Firefox](https://img.shields.io/badge/Firefox-FF7139?style=for-the-badge&logo=Firefox-Browser&logoColor=white&link=https://addons.mozilla.org/fr/firefox/addon/ecoindex-fr/)
-![Google Chrome](https://img.shields.io/badge/Google%20Chrome-4285F4?style=for-the-badge&logo=GoogleChrome&logoColor=white&link=https://chrome.google.com/webstore/detail/ecoindexfr/apeadjelacokohnkfclnhjlihklpclmp?hl=fr&authuser=0)
-![Opera](https://img.shields.io/badge/Opera-FF1B2D?style=for-the-badge&logo=Opera&logoColor=white&link=https://addons.opera.com/fr/extensions/details/ecoindexfr/)
-![Edge](https://img.shields.io/badge/Edge-0078D7?style=for-the-badge&logo=Microsoft-edge&logoColor=white&link=https://microsoftedge.microsoft.com/addons/detail/ecoindexfr/fioadgdggjngcpbeilfgacmddamnhnah)
+[![Firefox](https://img.shields.io/badge/Firefox-FF7139?style=for-the-badge&logo=Firefox-Browser&logoColor=white)](https://addons.mozilla.org/fr/firefox/addon/ecoindex-fr/)
+[![Google Chrome](https://img.shields.io/badge/Google%20Chrome-4285F4?style=for-the-badge&logo=GoogleChrome&logoColor=white)](https://chrome.google.com/webstore/detail/ecoindexfr/apeadjelacokohnkfclnhjlihklpclmp)
+[![Opera](https://img.shields.io/badge/Opera-FF1B2D?style=for-the-badge&logo=Opera&logoColor=white)](https://addons.opera.com/fr/extensions/details/ecoindexfr/)
+[![Edge](https://img.shields.io/badge/Edge-0078D7?style=for-the-badge&logo=Microsoft-edge&logoColor=white)](https://microsoftedge.microsoft.com/addons/detail/ecoindexfr/fioadgdggjngcpbeilfgacmddamnhnah)
 
 ## Description
 
