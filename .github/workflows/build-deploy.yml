@@ -44,20 +44,14 @@ jobs:
           name: web-ext-artifacts
 
       - name: "⬆️ Upload Chrome release artifact"
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ecoindex.fr-chrome.zip
-          asset_name: ecoindex-${{ github.ref_name }}-chrome.zip
-          tag: ${{ github.ref }}
+        run: |
+          cp ecoindex.fr-chrome.zip ecoindex-${{ github.ref_name }}-chrome.zip && \
+          gh release upload ${{ github.ref }} ecoindex-${{ github.ref_name }}-chrome.zip
 
       - name: "⬆️ Upload Firefox release artifact"
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ecoindex.fr-firefox.zip
-          asset_name: ecoindex-${{ github.ref_name }}-firefox.zip
-          tag: ${{ github.ref }}
+        run: |
+          cp ecoindex.fr-firefox.zip ecoindex-${{ github.ref_name }}-firefox.zip && \
+          gh release upload ${{ github.ref }} ecoindex-${{ github.ref_name }}-firefox.zip
 
   firefox:
     name: "🦊 Publish Firefox extension"
@@ -70,20 +64,13 @@ jobs:
           name: web-ext-artifacts
 
       - name: "💫 Publish firefox extension"
-        id: web-ext-sign
-        uses: kewisch/action-web-ext@v1
+        uses: PlasmoHQ/bpp@v3
         with:
-          cmd: sign
-          source: ecoindex.fr-firefox.zip
-          channel: listed
-          apiKey: ${{ secrets.AMO_SIGN_KEY }}
-          apiSecret: ${{ secrets.AMO_SIGN_SECRET }}
-          timeout: 900000
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          artifact: ecoindex.fr-firefox.zip
+          keys: ${{ secrets.BPP_KEYS_FIREFOX }}
 
   chrome:
-    name: "🤖 Publish Chrome extension"
+    name: "🤖 Publish Chrome and edge extensions"
     runs-on: ubuntu-latest
     needs: build
     steps:
@@ -92,11 +79,8 @@ jobs:
         with:
           name: web-ext-artifacts
 
-      - name: "💫 Publish chrome extension"
-        uses: mnao305/chrome-extension-upload@v4.0.0
+      - name: "💫 Publish chrome and edge extensions"
+        uses: PlasmoHQ/bpp@v3
         with:
-          file-path: ecoindex.fr-chrome.zip
-          extension-id: ${{ secrets.CHROME_APP_ID }}
-          client-id: ${{ secrets.CHROME_CLIENT_ID }}
-          client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
-          refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
+          artifact: ecoindex.fr-chrome.zip
+          keys: ${{ secrets.BPP_KEYS_CHROME_EDGE }}
