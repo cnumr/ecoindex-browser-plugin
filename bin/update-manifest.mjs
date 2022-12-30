@@ -13,14 +13,6 @@ function updateManifest(browser) {
     version: process.env.npm_package_version,
   };
 
-  if (browser === 'firefox' && process.env.AMO_GECKO_ID !== undefined) {
-    data.browser_specific_settings = {
-      gecko: {
-        id: `{${process.env.AMO_GECKO_ID}}`,
-      },
-    };
-  }
-
   writeFileSync(filename, JSON.stringify(data, null, 2), 'utf8');
 }
 
