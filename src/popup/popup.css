@@ -661,3 +661,16 @@ code {
 .shadow {
   filter: drop-shadow(0 0 0.75rem black);
 }
+
+.button-icon {
+  background-color: #00664d;
+  background-color: var(--color-darkish);
+  fill: var(--color-light);
+}
+
+.icon-square-wrapper svg {
+  height: 1.5em;
+  width: 1.5em;
+  top: .25em;
+  position: relative;
+}

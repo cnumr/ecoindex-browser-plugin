@@ -56,11 +56,24 @@
         </div>
         <div class="text-align:center">
             <div class="space"><b>Score :</b> <span id="result-score"></span> / 100</div>
-            <div class="space"><a target="_blank" class="button" href="#" id="result-link">Plus d'infos</a></div>
+            <div class="space display:flex justify-content:end text-align:end">
+                <a target="_blank" class="button" href="#" id="result-link">Plus d'infos</a>
+                <a href="#" class="button button-icon" id="retest" title="Retester">
+                    <span class="icon-square-wrapper bg-darkish" aria-label="Retester">
+                        <svg aria-hidden="true">
+                            <use xlink:href="#icon-refresh">
+                                <symbol id="icon-refresh" viewBox="0 0 25 25">
+                                    <path d="m17.856 5.476 2.56-2.56v7.657h-7.66l3.524-3.523c-1.181-1.191-2.8-1.946-4.614-1.947-2.854.003-5.28 1.829-6.177 4.375h-.02c-.124.352-.22.718-.283 1.094h-2.202c.537-4.318 4.21-7.656 8.677-7.656h.011c2.417 0 4.602.977 6.184 2.559zm-14.94 14.94 2.562-2.559c1.58 1.582 3.766 2.56 6.183 2.56h.011c4.467 0 8.14-3.339 8.677-7.657h-2.201c-.064.377-.16.742-.284 1.094h-.02c-.896 2.547-3.322 4.372-6.176 4.375-1.815-.001-3.433-.755-4.614-1.947l3.524-3.522h-7.661v7.657z" transform="translate(.833 .833)"></path>
+                                </symbol>
+                            </use>
+                        </svg>
+                    </span>
+                </a>
+            </div>
         </div>
     </div>
     <div id="no-analysis" class="text-align:center" style="display: none;">
-        <button id="run-analysis""">Lancer une analyse</button>
+        <button>Lancer une analyse</button>
         <div class="text-align:center;">
             <div class="dot-typing text-align:center"></div>
         </div>
