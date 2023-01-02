@@ -1,6 +1,6 @@
 {
   "name": "ecoindex-browser-plugin",
-  "version": "2.4.1",
+  "version": "2.4.2",
   "description": "This is the source code of the Ecoindex browser plugin. This simple plugin allows you to check the Ecoindex of any website you visit.",
   "scripts": {
     "manifest:tmp": "node bin/temp-manifest.mjs",
