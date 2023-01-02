@@ -73,26 +73,12 @@ function displayImage(id) {
 }
 
 /**
- * Display the result of the analysis using data from the API
- * @param any ecoindex
+ * Reset list element
+ * @param Element section
  */
-function displayResult(ecoindex) {
-  const dateResultElement = document.getElementById('result-date');
-  dateResultElement.textContent = convertDate(ecoindex.date);
-
-  domTitle.textContent = 'Résultat pour cette page';
-
-  const activeLevelChart = document.querySelector(`[data-grade-result="${ecoindex.grade}"]`);
-  activeLevelChart.classList.add('--active');
-
-  const resultScore = document.getElementById('result-score');
-  resultScore.textContent = ecoindex.score;
-
-  const resultLink = document.getElementById('result-link');
-  resultLink.setAttribute('href', `${ecoindexUrl}/resultat/?id=${ecoindex.id}`);
-
-  document.getElementById('result').style.display = 'block';
-  displayImage(ecoindex.id);
+function resetList(section) {
+  const ul = section.getElementsByTagName('ul')[0];
+  ul.innerHTML = '';
 }
 
 /**
@@ -140,11 +126,43 @@ function setOtherResults(ecoindexData, tag) {
     return;
   }
 
+  resetList(section);
+
   data.slice(-5).forEach((ecoindex) => {
     makeList(section, ecoindex);
   });
 
   section.style.display = 'block';
+}
+
+/**
+ * Display the result of the analysis using data from the API
+ * @param any ecoindexData results from the BFF API
+ */
+function displayResult(ecoindexData) {
+  const latestResult = ecoindexData['latest-result'];
+  const dateResultElement = document.getElementById('result-date');
+  dateResultElement.textContent = convertDate(latestResult.date);
+
+  domTitle.textContent = 'Résultat pour cette page';
+
+  const activeLevelChart = document.querySelector(`[data-grade-result="${latestResult.grade}"]`);
+  activeLevelChart.classList.add('--active');
+
+  const resultScore = document.getElementById('result-score');
+  resultScore.textContent = latestResult.score;
+
+  const resultLink = document.getElementById('result-link');
+  resultLink.setAttribute('href', `${ecoindexUrl}/resultat/?id=${latestResult.id}`);
+
+  document.getElementById('result').style.display = 'block';
+  displayImage(latestResult.id);
+
+  if (ecoindexData['older-results']?.length > 0 || ecoindexData['host-results']?.length > 0) {
+    document.getElementById('other-results').style.display = 'block';
+    setOtherResults(ecoindexData, 'older');
+    setOtherResults(ecoindexData, 'host');
+  }
 }
 
 /**
@@ -157,13 +175,19 @@ function updatePopup(ecoindexData) {
   } else if (ecoindexData['latest-result'].id === '') {
     proposeAnalysis('Aucune analyse pour cette page');
   } else {
-    displayResult(ecoindexData['latest-result']);
+    displayResult(ecoindexData);
   }
-  if (ecoindexData['older-results']?.length > 0 || ecoindexData['host-results']?.length > 0) {
-    document.getElementById('other-results').style.display = 'block';
-    setOtherResults(ecoindexData, 'older');
-    setOtherResults(ecoindexData, 'host');
-  }
+}
+
+/**
+ * Get data from the API and update the popup
+ * @param string url
+ */
+function getAndUpdateEcoindexData(url) {
+  fetch(`${apiUrl}?url=${url}`)
+    .then((r) => r.json())
+    .then(updatePopup)
+    .catch(handleApiError);
 }
 
 const fetchWithRetries = async (url, options, retryCount = 0) => {
@@ -189,8 +213,7 @@ const fetchWithRetries = async (url, options, retryCount = 0) => {
         document.getElementById('loader').style.display = 'none';
         document.getElementById('no-analysis').style.display = 'none';
 
-        // eslint-disable-next-line no-undef
-        displayResult({ id: taskResult.id, ...ecoindex.detail });
+        getAndUpdateEcoindexData(tabUrl);
       }
 
       if (taskResult.status === 'SUCCESS' && ecoindex.status === 'FAILURE') {
@@ -216,11 +239,26 @@ const fetchWithRetries = async (url, options, retryCount = 0) => {
 };
 
 /**
+ * Reset the display
+ * @returns null
+ */
+function resetDisplay() {
+  document.getElementById('loader').style.display = 'none';
+  document.getElementById('no-analysis').style.display = 'none';
+  document.getElementById('result').style.display = 'none';
+  document.getElementById('screenshot').style.display = 'none';
+  document.getElementById('other-results').style.display = 'none';
+  document.getElementById('older-results').style.display = 'none';
+  document.getElementById('host-results').style.display = 'none';
+  document.getElementById('error').style.display = 'none';
+}
+
+/**
  * Call the API to run an analysis
  */
 async function runAnalysis() {
+  resetDisplay();
   document.getElementById('loader').style.display = 'block';
-  document.querySelector('#no-analysis button').style.display = 'none';
 
   fetch(`${apiUrl}/tasks`, {
     method: 'POST',
@@ -242,7 +280,10 @@ async function runAnalysis() {
     });
 }
 
-document.getElementById('run-analysis').addEventListener('click', runAnalysis);
+resetDisplay();
+
+document.querySelector('#no-analysis button').addEventListener('click', runAnalysis);
+document.getElementById('retest').addEventListener('click', runAnalysis);
 
 // eslint-disable-next-line no-undef
 chrome.tabs.query({
@@ -251,8 +292,5 @@ chrome.tabs.query({
 }, (tabs) => {
   tabUrl = tabs[0].url;
 
-  fetch(`${apiUrl}?url=${tabUrl}`)
-    .then((r) => r.json())
-    .then(updatePopup)
-    .catch(handleApiError);
+  getAndUpdateEcoindexData(tabUrl);
 });
