@@ -126,7 +126,7 @@ function setOtherResults(ecoindexData, tag) {
 
 /**
  * Display the result of the analysis using data from the API
- * @param any ecoindex
+ * @param any ecoindexData results from the BFF API
  */
 function displayResult(ecoindexData) {
   const latestResult = ecoindexData['latest-result'];
@@ -237,6 +237,7 @@ function resetDisplay() {
   document.getElementById('result').style.display = 'none';
   document.getElementById('screenshot').style.display = 'none';
   document.getElementById('other-results').style.display = 'none';
+  document.getElementById('error').style.display = 'none';
 }
 
 /**
@@ -265,6 +266,8 @@ async function runAnalysis() {
       });
     });
 }
+
+resetDisplay();
 
 document.querySelector('#no-analysis button').addEventListener('click', runAnalysis);
 document.getElementById('retest').addEventListener('click', runAnalysis);

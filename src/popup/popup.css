@@ -757,3 +757,7 @@ code {
   top: .25em;
   position: relative;
 }
+
+summary {
+  cursor: pointer;
+}
