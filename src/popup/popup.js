@@ -35,6 +35,7 @@ function proposeAnalysis(message) {
   const noAnalyzis = document.getElementById('no-analysis');
   domTitle.textContent = message;
   noAnalyzis.style.display = 'block';
+  domTitle.style.display = 'block';
 }
 
 /**
@@ -93,20 +94,21 @@ function makeList(section, ecoindex) {
   b.style.padding = '10px';
   b.textContent = ecoindex.grade;
 
-  const link = document.createElement('a');
-  link.appendChild(b);
-  link.setAttribute('href', `${ecoindexUrl}/resultat/?id=${ecoindex.id}`);
-  link.setAttribute('target', '_blank');
+  const resultLink = document.createElement('a');
+  resultLink.appendChild(b);
+  resultLink.setAttribute('href', `${ecoindexUrl}/resultat/?id=${ecoindex.id}`);
+  resultLink.setAttribute('target', '_blank');
 
   const li = document.createElement('li');
   li.style.listStyleType = 'none';
   li.setAttribute('title', `(${ecoindex.score} / 100) le ${convertDate(ecoindex.date)}`);
-  li.appendChild(link);
+  li.appendChild(resultLink);
 
-  const text = document.createElement('span');
-  text.textContent = ecoindex.url;
-  text.style.paddingLeft = '5px';
-  li.appendChild(text);
+  const pageLink = document.createElement('a');
+  pageLink.textContent = ecoindex.url;
+  pageLink.setAttribute('href', ecoindex.url);
+  pageLink.style.paddingLeft = '5px';
+  li.appendChild(pageLink);
 
   const ul = section.getElementsByTagName('ul')[0];
   ul.appendChild(li);
@@ -141,22 +143,25 @@ function setOtherResults(ecoindexData, tag) {
  */
 function displayResult(ecoindexData) {
   const latestResult = ecoindexData['latest-result'];
-  const dateResultElement = document.getElementById('result-date');
-  dateResultElement.textContent = convertDate(latestResult.date);
+  if (latestResult.id !== '') {
+    const dateResultElement = document.getElementById('result-date');
+    dateResultElement.textContent = convertDate(latestResult.date);
 
-  domTitle.textContent = 'Résultat pour cette page';
+    domTitle.textContent = 'Résultat pour cette page';
+    domTitle.style.display = 'block';
 
-  const activeLevelChart = document.querySelector(`[data-grade-result="${latestResult.grade}"]`);
-  activeLevelChart.classList.add('--active');
+    const activeLevelChart = document.querySelector(`[data-grade-result="${latestResult.grade}"]`);
+    activeLevelChart.classList.add('--active');
 
-  const resultScore = document.getElementById('result-score');
-  resultScore.textContent = latestResult.score;
+    const resultScore = document.getElementById('result-score');
+    resultScore.textContent = latestResult.score;
 
-  const resultLink = document.getElementById('result-link');
-  resultLink.setAttribute('href', `${ecoindexUrl}/resultat/?id=${latestResult.id}`);
+    const resultLink = document.getElementById('result-link');
+    resultLink.setAttribute('href', `${ecoindexUrl}/resultat/?id=${latestResult.id}`);
 
-  document.getElementById('result').style.display = 'block';
-  displayImage(latestResult.id);
+    document.getElementById('result').style.display = 'block';
+    displayImage(latestResult.id);
+  }
 
   if (ecoindexData['older-results']?.length > 0 || ecoindexData['host-results']?.length > 0) {
     document.getElementById('other-results').style.display = 'block';
@@ -174,9 +179,9 @@ function updatePopup(ecoindexData) {
     proposeAnalysis('Aucune analyse pour ce site');
   } else if (ecoindexData['latest-result'].id === '') {
     proposeAnalysis('Aucune analyse pour cette page');
-  } else {
-    displayResult(ecoindexData);
   }
+
+  displayResult(ecoindexData);
 }
 
 /**
@@ -244,6 +249,7 @@ const fetchWithRetries = async (url, options, retryCount = 0) => {
  */
 function resetDisplay() {
   document.getElementById('loader').style.display = 'none';
+  document.getElementById('title').style.display = 'none';
   document.getElementById('no-analysis').style.display = 'none';
   document.getElementById('result').style.display = 'none';
   document.getElementById('screenshot').style.display = 'none';
