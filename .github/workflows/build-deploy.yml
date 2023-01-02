@@ -47,11 +47,15 @@ jobs:
         run: |
           cp ecoindex.fr-chrome.zip ecoindex-${{ github.ref_name }}-chrome.zip && \
           gh release upload ${{ github.ref }} ecoindex-${{ github.ref_name }}-chrome.zip
+        env:
+          GH_TOKEN: ${{ github.token }}
 
       - name: "⬆️ Upload Firefox release artifact"
         run: |
           cp ecoindex.fr-firefox.zip ecoindex-${{ github.ref_name }}-firefox.zip && \
           gh release upload ${{ github.ref }} ecoindex-${{ github.ref_name }}-firefox.zip
+        env:
+          GH_TOKEN: ${{ github.token }}
 
   firefox:
     name: "🦊 Publish Firefox extension"
