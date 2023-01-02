@@ -73,6 +73,15 @@ function displayImage(id) {
 }
 
 /**
+ * Reset list element
+ * @param Element section
+ */
+function resetList(section) {
+  const ul = section.getElementsByTagName('ul')[0];
+  ul.innerHTML = '';
+}
+
+/**
  * Display list element for other results
  * @param Element section
  * @param any ecoindex
@@ -116,6 +125,8 @@ function setOtherResults(ecoindexData, tag) {
   if ((data?.length || 0) === 0) {
     return;
   }
+
+  resetList(section);
 
   data.slice(-5).forEach((ecoindex) => {
     makeList(section, ecoindex);
@@ -237,6 +248,8 @@ function resetDisplay() {
   document.getElementById('result').style.display = 'none';
   document.getElementById('screenshot').style.display = 'none';
   document.getElementById('other-results').style.display = 'none';
+  document.getElementById('older-results').style.display = 'none';
+  document.getElementById('host-results').style.display = 'none';
   document.getElementById('error').style.display = 'none';
 }
 
