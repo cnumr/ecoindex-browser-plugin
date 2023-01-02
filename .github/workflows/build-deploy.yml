@@ -43,19 +43,17 @@ jobs:
         with:
           name: web-ext-artifacts
 
-      - name: "⬆️ Upload Chrome release artifact"
+      - name: "©️ Copy files"
         run: |
           cp ecoindex.fr-chrome.zip ecoindex-${{ github.ref_name }}-chrome.zip && \
-          gh release upload ${{ github.ref }} ecoindex-${{ github.ref_name }}-chrome.zip
-        env:
-          GH_TOKEN: ${{ github.token }}
+          cp ecoindex.fr-firefox.zip ecoindex-${{ github.ref_name }}-firefox.zip
 
-      - name: "⬆️ Upload Firefox release artifact"
-        run: |
-          cp ecoindex.fr-firefox.zip ecoindex-${{ github.ref_name }}-firefox.zip && \
-          gh release upload ${{ github.ref }} ecoindex-${{ github.ref_name }}-firefox.zip
-        env:
-          GH_TOKEN: ${{ github.token }}
+      - name: "⬆️ Upload release artifact"
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            ecoindex-${{ github.ref_name }}-chrome.zip
+            ecoindex-${{ github.ref_name }}-firefox.zip
 
   firefox:
     name: "🦊 Publish Firefox extension"
