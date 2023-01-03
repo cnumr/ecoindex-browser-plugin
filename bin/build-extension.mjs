@@ -13,6 +13,7 @@ args.forEach((browser) => {
     fs.copySync(`${dirname}/../src/manifest-${browser}.json`, `${dirname}/../dist/${browser}/manifest.json`);
     fs.copySync(`${dirname}/../src/popup`, `${dirname}/../dist/${browser}/popup`);
     fs.copySync(`${dirname}/../src/images`, `${dirname}/../dist/${browser}/images`);
+    fs.copySync(`${dirname}/../src/background`, `${dirname}/../dist/${browser}/background`);
 
     webExt.cmd.build({
       sourceDir: `${dirname}/../dist/${browser}`,
