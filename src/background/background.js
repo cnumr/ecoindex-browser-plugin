@@ -6,8 +6,8 @@ if (navigator.userAgent.includes('Firefox')) {
   currentBrowser = browser;
 } else {
   currentBrowser = chrome;
+  currentBrowser.browserAction = chrome.action;
 }
-// TODO: browserAction if Firefox else action...
 
 async function setBadgeUnknownGrade() {
   await currentBrowser.browserAction.setBadgeBackgroundColor({ color: '#5b5b5b' });
