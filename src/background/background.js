@@ -1,5 +1,6 @@
 const apiUrl = 'https://bff.ecoindex.fr';
 let currentBrowser;
+let tabUrl = '';
 
 if (navigator.userAgent.includes('Firefox')) {
   currentBrowser = browser;
@@ -23,26 +24,29 @@ async function updateBadge(ecoindexData) {
   }
 }
 
-async function getAndUpdateEcoindexData(url) {
-  fetch(`${apiUrl}?url=${url}`)
+async function getAndUpdateEcoindexData() {
+  fetch(`${apiUrl}?url=${tabUrl}`)
     .then((r) => r.json())
     .then(updateBadge);
 }
 
-async function getBadgeInfo(url) {
+async function getBadgeInfo() {
   await setBadgeUnknownGrade();
-
-  if (typeof url === 'string' && url.startsWith('http')) {
-    await getAndUpdateEcoindexData(url);
-  }
+  await getAndUpdateEcoindexData(tabUrl);
 }
 
 currentBrowser.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
-  if (!changeInfo.url) return;
-  await getBadgeInfo(changeInfo.url);
+  if (changeInfo.url !== undefined && changeInfo.url !== '') {
+    tabUrl = changeInfo.url;
+  }
+
+  if (changeInfo.status === 'loading') {
+    await getBadgeInfo();
+  }
 });
 
 currentBrowser.tabs.onActivated.addListener(async (activeInfo) => {
   const [tab] = await currentBrowser.tabs.query({ active: true, currentWindow: true });
-  await getBadgeInfo(tab.url);
+  tabUrl = tab.url;
+  await getBadgeInfo();
 });
