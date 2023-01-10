@@ -26,15 +26,11 @@ async function updateBadge(ecoindexData) {
   }
 }
 
-async function getAndUpdateEcoindexData() {
+async function getBadgeInfo() {
+  await setBadgeUnknownGrade();
   fetch(`${apiUrl}?url=${tabUrl}`)
     .then((r) => r.json())
     .then(updateBadge);
-}
-
-async function getBadgeInfo() {
-  await setBadgeUnknownGrade();
-  await getAndUpdateEcoindexData(tabUrl);
 }
 
 currentBrowser.tabs.onUpdated.addListener(async (_tabId, changeInfo) => {
