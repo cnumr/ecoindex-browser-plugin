@@ -30,7 +30,10 @@ async function getBadgeInfo() {
   await setBadgeUnknownGrade();
   fetch(`${apiUrl}?url=${tabUrl}`)
     .then((r) => r.json())
-    .then(updateBadge);
+    .then(updateBadge)
+    .catch(async () => {
+      await setBadgeUnknownGrade();
+    });
 }
 
 currentBrowser.tabs.onUpdated.addListener(async (_tabId, changeInfo) => {
