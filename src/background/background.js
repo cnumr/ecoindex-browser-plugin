@@ -1,3 +1,5 @@
+/* global chrome,browser */
+
 const apiUrl = 'https://bff.ecoindex.fr';
 let currentBrowser;
 let tabUrl = '';
@@ -35,7 +37,7 @@ async function getBadgeInfo() {
   await getAndUpdateEcoindexData(tabUrl);
 }
 
-currentBrowser.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
+currentBrowser.tabs.onUpdated.addListener(async (_tabId, changeInfo) => {
   if (changeInfo.url !== undefined && changeInfo.url !== '') {
     tabUrl = changeInfo.url;
   }
@@ -45,7 +47,7 @@ currentBrowser.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
   }
 });
 
-currentBrowser.tabs.onActivated.addListener(async (activeInfo) => {
+currentBrowser.tabs.onActivated.addListener(async () => {
   const [tab] = await currentBrowser.tabs.query({ active: true, currentWindow: true });
   tabUrl = tab.url;
   await getBadgeInfo();

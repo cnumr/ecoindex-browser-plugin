@@ -1,3 +1,4 @@
+/* global chrome */
 /* eslint-disable no-console */
 const ecoindexUrl = 'https://www.ecoindex.fr';
 const apiUrl = 'https://bff.ecoindex.fr';
@@ -223,12 +224,10 @@ const fetchWithRetries = async (url, options, retryCount = 0) => {
 
       if (taskResult.status === 'SUCCESS' && ecoindex.status === 'FAILURE') {
         const e = taskResult.ecoindex_result.error;
-        // eslint-disable-next-line no-undef
         displayError(e.message, e.detail);
       }
 
       if (taskResult.status === 'FAILURE') {
-        // eslint-disable-next-line no-undef
         displayError("Erreur lors de l'analyse de la page", taskResult.task_error);
       }
     })
@@ -291,7 +290,6 @@ resetDisplay();
 document.querySelector('#no-analysis button').addEventListener('click', runAnalysis);
 document.getElementById('retest').addEventListener('click', runAnalysis);
 
-// eslint-disable-next-line no-undef
 chrome.tabs.query({
   active: true,
   lastFocusedWindow: true,
