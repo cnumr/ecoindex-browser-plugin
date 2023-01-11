@@ -12,8 +12,12 @@
     "default_title": "Ecoindex",
     "default_popup": "popup/popup.html"
   },
+  "background": {
+    "service_worker": "background/background.js"
+  },
   "permissions": [
-    "tabs"
+    "tabs",
+    "activeTab"
   ],
   "host_permissions": [
     "https://bff.ecoindex.fr/*"
