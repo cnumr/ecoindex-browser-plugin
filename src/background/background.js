@@ -1,5 +1,3 @@
-/* global chrome,browser */
-
 const apiUrl = 'https://bff.ecoindex.fr';
 let currentBrowser;
 let tabUrl = '';

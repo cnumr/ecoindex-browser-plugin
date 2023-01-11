@@ -1,4 +1,3 @@
-/* global chrome */
 /* eslint-disable no-console */
 const ecoindexUrl = 'https://www.ecoindex.fr';
 const apiUrl = 'https://bff.ecoindex.fr';
