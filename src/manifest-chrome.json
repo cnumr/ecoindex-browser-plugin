@@ -17,7 +17,8 @@
   },
   "permissions": [
     "tabs",
-    "activeTab"
+    "activeTab",
+    "storage"
   ],
   "host_permissions": [
     "https://bff.ecoindex.fr/*"

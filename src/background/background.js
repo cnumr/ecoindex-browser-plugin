@@ -14,24 +14,47 @@ async function setBadgeUnknownGrade() {
   await currentBrowser.browserAction.setBadgeText({ text: '?' });
 }
 
+async function setBadge(color, text) {
+  await currentBrowser.browserAction.setBadgeBackgroundColor({ color });
+  await currentBrowser.browserAction.setBadgeText({ text });
+}
 async function updateBadge(ecoindexData) {
   if (!ecoindexData['latest-result'].id) {
     await setBadgeUnknownGrade();
   } else {
-    const { color, grade: text } = ecoindexData['latest-result'];
-    await currentBrowser.browserAction.setBadgeBackgroundColor({ color });
-    await currentBrowser.browserAction.setBadgeText({ text });
+    const value = ecoindexData['latest-result'];
+    const date = new Date();
+    const tomorrow = date.setDate(date.getDate() + 1);
+    currentBrowser.storage.local.set({
+      [tabUrl]: {
+        color: value.color,
+        text: value.grade,
+        expirationTimestamp: tomorrow,
+      },
+    }).then().catch(async () => {
+      await setBadgeUnknownGrade();
+    });
+
+    const { color, grade: text } = value;
+    await setBadge(color, text);
   }
 }
 
 async function getBadgeInfo() {
-  await setBadgeUnknownGrade();
-  fetch(`${apiUrl}?url=${tabUrl}`)
-    .then((r) => r.json())
-    .then(updateBadge)
-    .catch(async () => {
+  currentBrowser.storage.local.get([tabUrl]).then(async (result) => {
+    if (!result[tabUrl] || result[tabUrl]?.expirationTimestamp < Date.now()) {
       await setBadgeUnknownGrade();
-    });
+      fetch(`${apiUrl}?url=${tabUrl}`)
+        .then((r) => r.json())
+        .then(updateBadge)
+        .catch(async () => {
+          await setBadgeUnknownGrade();
+        });
+    } else {
+      const { text, color } = result[tabUrl];
+      await setBadge(color, text);
+    }
+  });
 }
 
 currentBrowser.tabs.onUpdated.addListener(async (_tabId, changeInfo) => {
