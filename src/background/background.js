@@ -42,7 +42,7 @@ async function updateBadge(ecoindexData) {
 
 async function getBadgeInfo() {
   currentBrowser.storage.local.get([tabUrl]).then(async (result) => {
-    if (!result[tabUrl] || result[tabUrl]?.expirationTimestamp < Date.now()) {
+    if ((!result[tabUrl] || result[tabUrl]?.expirationTimestamp < Date.now()) && tabUrl !== 'about:newtab') {
       await setBadgeUnknownGrade();
       fetch(`${apiUrl}?url=${tabUrl}`)
         .then((r) => r.json())
