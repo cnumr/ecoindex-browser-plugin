@@ -14,6 +14,18 @@ async function setBadgeUnknownGrade() {
   await currentBrowser.browserAction.setBadgeText({ text: '?' });
 }
 
+async function cacheUnknownUrl() {
+  const date = new Date();
+  const tomorrow = date.setDate(date.getDate() + 1);
+  currentBrowser.storage.local.set({
+    [tabUrl]: {
+      color: '#5b5b5b',
+      text: '?',
+      expirationTimestamp: tomorrow,
+    }
+  }).then();
+}
+
 async function setBadge(color, text) {
   await currentBrowser.browserAction.setBadgeBackgroundColor({ color });
   await currentBrowser.browserAction.setBadgeText({ text });
@@ -21,6 +33,7 @@ async function setBadge(color, text) {
 async function updateBadge(ecoindexData) {
   if (!ecoindexData['latest-result'].id) {
     await setBadgeUnknownGrade();
+    await cacheUnknownUrl();
   } else {
     const value = ecoindexData['latest-result'];
     const date = new Date();
@@ -49,8 +62,10 @@ async function getBadgeInfo() {
         .then(updateBadge)
         .catch(async () => {
           await setBadgeUnknownGrade();
+          await cacheUnknownUrl();
         });
     } else {
+      console.log(tabUrl);
       const { text, color } = result[tabUrl];
       await setBadge(color, text);
     }
