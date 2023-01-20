@@ -1,13 +1,7 @@
+import { CustomPolyfill } from '../custom-polyfill.js';
 const apiUrl = 'https://bff.ecoindex.fr';
-let currentBrowser;
 let tabUrl = '';
-
-if (navigator.userAgent.includes('Firefox')) {
-  currentBrowser = browser;
-} else {
-  currentBrowser = chrome;
-  currentBrowser.browserAction = chrome.action;
-}
+const currentBrowser = new CustomPolyfill().getBrowser();
 
 async function setBadgeUnknownGrade() {
   await currentBrowser.browserAction.setBadgeBackgroundColor({ color: '#5b5b5b' });
@@ -65,7 +59,6 @@ async function getBadgeInfo() {
           await cacheUnknownUrl();
         });
     } else {
-      console.log(tabUrl);
       const { text, color } = result[tabUrl];
       await setBadge(color, text);
     }

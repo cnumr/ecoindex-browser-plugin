@@ -14,6 +14,7 @@ args.forEach((browser) => {
     fs.copySync(`${dirname}/../src/popup`, `${dirname}/../dist/${browser}/popup`);
     fs.copySync(`${dirname}/../src/images`, `${dirname}/../dist/${browser}/images`);
     fs.copySync(`${dirname}/../src/background`, `${dirname}/../dist/${browser}/background`);
+    fs.copySync(`${dirname}/../src/custom-polyfill.js`, `${dirname}/../dist/${browser}/custom-polyfill.js`);
 
     webExt.cmd.build({
       sourceDir: `${dirname}/../dist/${browser}`,

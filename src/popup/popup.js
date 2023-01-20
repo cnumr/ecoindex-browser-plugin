@@ -1,16 +1,10 @@
 /* eslint-disable no-console */
+import { CustomPolyfill } from '../custom-polyfill.js';
 const ecoindexUrl = 'https://www.ecoindex.fr';
 const apiUrl = 'https://bff.ecoindex.fr';
 let tabUrl;
 const domTitle = document.getElementById('title');
-
-if (navigator.userAgent.includes('Firefox')) {
-  currentBrowser = browser;
-} else {
-  currentBrowser = chrome;
-  currentBrowser.browserAction = chrome.action;
-}
-
+const currentBrowser = new CustomPolyfill().getBrowser();
 
 /**
  * display error message
