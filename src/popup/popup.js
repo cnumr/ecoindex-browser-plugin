@@ -141,16 +141,16 @@ function setOtherResults(ecoindexData, tag) {
   section.style.display = 'block';
 }
 
-function updateLocalStorage(value) {
+async function updateLocalStorage(value) {
   const date = new Date();
   const tomorrow = date.setDate(date.getDate() + 1);
-  currentBrowser.storage.local.set({
+  await currentBrowser.storage.local.set({
     [tabUrl]: {
       color: value.color,
       text: value.grade,
       expirationTimestamp: tomorrow,
     },
-  }).then();
+  });
 }
 
 /**
