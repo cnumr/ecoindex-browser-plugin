@@ -7,13 +7,16 @@ const args = process.argv.slice(2);
 const f = fileURLToPath(import.meta.url);
 const dirname = path.dirname(f);
 
+
 args.forEach((browser) => {
   if (['firefox', 'chrome'].includes(browser)) {
+    fs.rmSync(`${dirname}/../dist/${browser}`,{ recursive: true, force: true });
     fs.mkdirSync(`${dirname}/../dist/${browser}`, { recursive: true });
     fs.copySync(`${dirname}/../src/manifest-${browser}.json`, `${dirname}/../dist/${browser}/manifest.json`);
     fs.copySync(`${dirname}/../src/popup`, `${dirname}/../dist/${browser}/popup`);
     fs.copySync(`${dirname}/../src/images`, `${dirname}/../dist/${browser}/images`);
     fs.copySync(`${dirname}/../src/background`, `${dirname}/../dist/${browser}/background`);
+    fs.copySync(`${dirname}/../src/custom-polyfill.js`, `${dirname}/../dist/${browser}/custom-polyfill.js`);
 
     webExt.cmd.build({
       sourceDir: `${dirname}/../dist/${browser}`,

@@ -13,13 +13,18 @@
     "default_popup": "popup/popup.html"
   },
   "background": {
-    "scripts": [
-      "background/background.js"
-    ]
+    "page": "background/background.html"
   },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["custom-polyfill.js"]
+    }
+  ],
   "permissions": [
-    "tabs",
     "activeTab",
-    "https://bff.ecoindex.fr/*"
+    "https://bff.ecoindex.fr/*",
+    "storage",
+    "tabs"
   ]
 }

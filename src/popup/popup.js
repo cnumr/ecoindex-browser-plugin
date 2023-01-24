@@ -1,8 +1,12 @@
 /* eslint-disable no-console */
+// eslint-disable-next-line import/extensions
+import getBrowserPolyfill from '../custom-polyfill.js';
+
 const ecoindexUrl = 'https://www.ecoindex.fr';
 const apiUrl = 'https://bff.ecoindex.fr';
 let tabUrl;
 const domTitle = document.getElementById('title');
+const currentBrowser = getBrowserPolyfill();
 
 /**
  * display error message
@@ -137,6 +141,18 @@ function setOtherResults(ecoindexData, tag) {
   section.style.display = 'block';
 }
 
+async function updateLocalStorage(value) {
+  const date = new Date();
+  const tomorrow = date.setDate(date.getDate() + 1);
+  await currentBrowser.storage.local.set({
+    [tabUrl]: {
+      color: value.color,
+      text: value.grade,
+      expirationTimestamp: tomorrow,
+    },
+  });
+}
+
 /**
  * Display the result of the analysis using data from the API
  * @param any ecoindexData results from the BFF API
@@ -161,6 +177,7 @@ function displayResult(ecoindexData) {
 
     document.getElementById('result').style.display = 'block';
     displayImage(latestResult.id);
+    updateLocalStorage(latestResult);
   }
 
   if (ecoindexData['older-results']?.length > 0 || ecoindexData['host-results']?.length > 0) {
@@ -289,7 +306,7 @@ resetDisplay();
 document.querySelector('#no-analysis button').addEventListener('click', runAnalysis);
 document.getElementById('retest').addEventListener('click', runAnalysis);
 
-chrome.tabs.query({
+currentBrowser.tabs.query({
   active: true,
   lastFocusedWindow: true,
 }, (tabs) => {
