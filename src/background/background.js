@@ -1,7 +1,9 @@
-import { CustomPolyfill } from '../custom-polyfill.js';
+// eslint-disable-next-line import/extensions
+import getBrowserPolyfill from '../custom-polyfill.js';
+
 const apiUrl = 'https://bff.ecoindex.fr';
 let tabUrl = '';
-const currentBrowser = new CustomPolyfill().getBrowser();
+const currentBrowser = getBrowserPolyfill();
 
 async function setBadgeUnknownGrade() {
   await currentBrowser.browserAction.setBadgeBackgroundColor({ color: '#5b5b5b' });
@@ -16,7 +18,7 @@ async function cacheUnknownUrl() {
       color: '#5b5b5b',
       text: '?',
       expirationTimestamp: tomorrow,
-    }
+    },
   }).then();
 }
 
@@ -49,7 +51,12 @@ async function updateBadge(ecoindexData) {
 
 async function getBadgeInfo() {
   currentBrowser.storage.local.get([tabUrl]).then(async (result) => {
-    if ((!result[tabUrl] || result[tabUrl]?.expirationTimestamp < Date.now()) && tabUrl !== 'about:newtab') {
+    if (tabUrl === 'about:newtab') {
+      await setBadge('transparent', '');
+      return;
+    }
+
+    if ((!result[tabUrl] || result[tabUrl]?.expirationTimestamp < Date.now())) {
       await setBadgeUnknownGrade();
       fetch(`${apiUrl}?url=${tabUrl}`)
         .then((r) => r.json())

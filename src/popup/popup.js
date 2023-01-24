@@ -1,10 +1,12 @@
 /* eslint-disable no-console */
-import { CustomPolyfill } from '../custom-polyfill.js';
+// eslint-disable-next-line import/extensions
+import getBrowserPolyfill from '../custom-polyfill.js';
+
 const ecoindexUrl = 'https://www.ecoindex.fr';
 const apiUrl = 'https://bff.ecoindex.fr';
 let tabUrl;
 const domTitle = document.getElementById('title');
-const currentBrowser = new CustomPolyfill().getBrowser();
+const currentBrowser = getBrowserPolyfill();
 
 /**
  * display error message
