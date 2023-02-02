@@ -15,13 +15,6 @@ jobs:
       - name: "👷 Install dependencies"
         run: npm install
 
-      - name: "🔑 Add Gecko ID"
-        run: |
-          echo "AMO_GECKO_ID=${{ secrets.AMO_GECKO_ID }}" >> $GITHUB_ENV
-
-      - name: "📄 Update Manifest with Gecko ID"
-        run: npm run manifest:update
-
       - name: "📦 Build application"
         run: npm run build:all
         env:
@@ -38,7 +31,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: "⬇️ Download Firefox artifact"
+      - name: "⬇️ Download artifacts"
         uses: actions/download-artifact@v3
         with:
           name: web-ext-artifacts
@@ -48,7 +41,7 @@ jobs:
           cp ecoindex.fr-chrome.zip ecoindex-${{ github.ref_name }}-chrome.zip && \
           cp ecoindex.fr-firefox.zip ecoindex-${{ github.ref_name }}-firefox.zip
 
-      - name: "⬆️ Upload release artifact"
+      - name: "⬆️ Upload release artifacts"
         uses: softprops/action-gh-release@v1
         with:
           files: |
