@@ -3,7 +3,7 @@
 import getBrowserPolyfill from '../custom-polyfill.js';
 
 const ecoindexUrl = 'https://www.ecoindex.fr';
-const apiUrl = 'https://bff.ecoindex.fr';
+const apiUrl = 'https://bff.ecoindex.fr/api';
 let tabUrl;
 const domTitle = document.getElementById('title');
 const currentBrowser = getBrowserPolyfill();
@@ -206,7 +206,7 @@ function updatePopup(ecoindexData) {
  * @param string url
  */
 function getAndUpdateEcoindexData(url) {
-  fetch(`${apiUrl}?url=${url}`)
+  fetch(`${apiUrl}/results/?refresh=true&url=${url}`)
     .then((r) => r.json())
     .then(updatePopup)
     .catch(handleApiError);
