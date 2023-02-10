@@ -1,7 +1,7 @@
 // eslint-disable-next-line import/extensions
 import getBrowserPolyfill from '../custom-polyfill.js';
 
-const apiUrl = 'https://bff.ecoindex.fr';
+const apiUrl = 'https://bff.ecoindex.fr/api';
 let tabUrl = '';
 const currentBrowser = getBrowserPolyfill();
 
