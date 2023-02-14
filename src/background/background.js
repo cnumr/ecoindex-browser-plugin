@@ -58,7 +58,7 @@ async function getBadgeInfo() {
 
     if ((!result[tabUrl] || result[tabUrl]?.expirationTimestamp < Date.now())) {
       await setBadgeUnknownGrade();
-      fetch(`${apiUrl}?url=${tabUrl}`)
+      fetch(`${apiUrl}/results/?url=${tabUrl}`)
         .then((r) => r.json())
         .then(updateBadge)
         .catch(async () => {
