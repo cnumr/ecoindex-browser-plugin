@@ -1,9 +1,15 @@
 /* eslint-disable no-console */
-// eslint-disable-next-line import/extensions
-import getBrowserPolyfill from '../custom-polyfill.js';
+/* eslint-disable import/extensions */
+import {
+  FETCH_ID_TASK_URL,
+  FETCH_RESULT_URL,
+  FETCH_SCREENSHOT_URL,
+  FETCH_TASK_URL,
+  getBrowserPolyfill,
+  FETCH_RESULT_ECOINDEX_URL,
+  setBadgeLocalStorage,
+} from '../common.js';
 
-const ecoindexUrl = 'https://www.ecoindex.fr';
-const apiUrl = 'https://bff.ecoindex.fr/api';
 let tabUrl;
 const domTitle = document.getElementById('title');
 const currentBrowser = getBrowserPolyfill();
@@ -62,7 +68,7 @@ function convertDate(date) {
  * @param string id
  */
 function displayImage(id) {
-  fetch(`${apiUrl}/screenshot/${id}`)
+  fetch(FETCH_SCREENSHOT_URL(id))
     .then((response) => {
       if (response.status !== 200) {
         throw new Error(`Pas de screenshot pour l'analyse ${id}`);
@@ -100,7 +106,7 @@ function makeList(section, ecoindex) {
 
   const resultLink = document.createElement('a');
   resultLink.appendChild(b);
-  resultLink.setAttribute('href', `${ecoindexUrl}/resultat/?id=${ecoindex.id}`);
+  resultLink.setAttribute('href', FETCH_RESULT_ECOINDEX_URL(ecoindex.id));
   resultLink.setAttribute('target', '_blank');
 
   const li = document.createElement('li');
@@ -142,15 +148,7 @@ function setOtherResults(ecoindexData, tag) {
 }
 
 async function updateLocalStorage(value) {
-  const date = new Date();
-  const tomorrow = date.setDate(date.getDate() + 1);
-  await currentBrowser.storage.local.set({
-    [tabUrl]: {
-      color: value.color,
-      text: value.grade,
-      expirationTimestamp: tomorrow,
-    },
-  });
+  await setBadgeLocalStorage(tabUrl, value.color, value.grade);
 }
 
 /**
@@ -173,7 +171,7 @@ function displayResult(ecoindexData) {
     resultScore.textContent = latestResult.score;
 
     const resultLink = document.getElementById('result-link');
-    resultLink.setAttribute('href', `${ecoindexUrl}/resultat/?id=${latestResult.id}`);
+    resultLink.setAttribute('href', FETCH_RESULT_ECOINDEX_URL(latestResult.id));
 
     document.getElementById('result').style.display = 'block';
     displayImage(latestResult.id);
@@ -206,7 +204,7 @@ function updatePopup(ecoindexData) {
  * @param string url
  */
 function getAndUpdateEcoindexData(url) {
-  fetch(`${apiUrl}/results/?refresh=true&url=${url}`)
+  fetch(FETCH_RESULT_URL(url, true))
     .then((r) => r.json())
     .then(updatePopup)
     .catch(handleApiError);
@@ -281,7 +279,7 @@ async function runAnalysis() {
   resetDisplay();
   document.getElementById('loader').style.display = 'block';
 
-  fetch(`${apiUrl}/tasks`, {
+  fetch(FETCH_TASK_URL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -292,7 +290,7 @@ async function runAnalysis() {
   })
     .then((r) => r.json())
     .then(async (id) => {
-      await fetchWithRetries(`${apiUrl}/tasks/${id}`, {
+      await fetchWithRetries(FETCH_ID_TASK_URL(id), {
         headers: {
           'Content-Type': 'application/json',
         },
