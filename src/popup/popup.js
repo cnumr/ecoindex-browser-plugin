@@ -2,11 +2,11 @@
 /* eslint-disable import/extensions */
 import {
   FETCH_ID_TASK_URL,
+  FETCH_RESULT_ECOINDEX_URL,
   FETCH_RESULT_URL,
   FETCH_SCREENSHOT_URL,
   FETCH_TASK_URL,
   getBrowserPolyfill,
-  FETCH_RESULT_ECOINDEX_URL,
   setBadgeLocalStorage,
 } from '../common.js';
 

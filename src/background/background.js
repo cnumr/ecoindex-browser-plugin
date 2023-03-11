@@ -1,6 +1,11 @@
 /* eslint-disable import/extensions */
 import {
-  getBrowserPolyfill, DEFAULT_COLOR, setBadgeLocalStorage, setBadge, FETCH_RESULT_URL, DEFAULT_BADGE_TEXT,
+  DEFAULT_BADGE_TEXT,
+  DEFAULT_COLOR,
+  FETCH_RESULT_URL,
+  getBrowserPolyfill,
+  setBadge,
+  setBadgeLocalStorage,
 } from '../common.js';
 
 let tabUrl = '';
