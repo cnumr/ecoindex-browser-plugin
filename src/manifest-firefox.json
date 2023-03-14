@@ -21,7 +21,7 @@
         "<all_urls>"
       ],
       "js": [
-        "custom-polyfill.js"
+        "common.js"
       ]
     }
   ],
