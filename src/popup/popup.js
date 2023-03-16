@@ -118,6 +118,7 @@ function makeList(section, ecoindex) {
   pageLink.textContent = ecoindex.url;
   pageLink.setAttribute('href', ecoindex.url);
   pageLink.style.paddingLeft = '5px';
+  pageLink.setAttribute('target', '_blank');
   li.appendChild(pageLink);
 
   const ul = section.getElementsByTagName('ul')[0];
