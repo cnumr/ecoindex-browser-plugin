@@ -13,14 +13,14 @@ const currentBrowser = getBrowserPolyfill();
 
 async function updateBadge(ecoindexData) {
   if (!ecoindexData['latest-result'].id) {
-    await setBadge(DEFAULT_COLOR, DEFAULT_BADGE_TEXT);
-    await setBadgeLocalStorage(tabUrl, DEFAULT_COLOR, DEFAULT_BADGE_TEXT);
+    await setBadge(DEFAULT_COLOR(), DEFAULT_BADGE_TEXT());
+    await setBadgeLocalStorage(tabUrl, DEFAULT_COLOR(), DEFAULT_BADGE_TEXT());
   } else {
     const { color, grade: text } = ecoindexData['latest-result'];
     setBadgeLocalStorage(tabUrl, color, text)
       .then()
       .catch(async () => {
-        await setBadge(DEFAULT_COLOR, DEFAULT_BADGE_TEXT);
+        await setBadge(DEFAULT_COLOR(), DEFAULT_BADGE_TEXT());
       });
     await setBadge(color, text);
   }
@@ -34,13 +34,13 @@ async function getBadgeInfo() {
     }
 
     if ((!result[tabUrl] || result[tabUrl]?.expirationTimestamp < Date.now())) {
-      await setBadge(DEFAULT_COLOR, DEFAULT_BADGE_TEXT);
+      await setBadge(DEFAULT_COLOR(), DEFAULT_BADGE_TEXT());
       fetch(FETCH_RESULT_URL(tabUrl))
         .then((r) => r.json())
         .then(updateBadge)
         .catch(async () => {
-          await setBadge(DEFAULT_COLOR, DEFAULT_BADGE_TEXT);
-          await setBadgeLocalStorage(tabUrl, DEFAULT_COLOR, DEFAULT_BADGE_TEXT);
+          await setBadge(DEFAULT_COLOR(), DEFAULT_BADGE_TEXT());
+          await setBadgeLocalStorage(tabUrl, DEFAULT_COLOR(), DEFAULT_BADGE_TEXT());
         });
     } else {
       const { text, color } = result[tabUrl];
